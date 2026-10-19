@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web 20/10 - Gửi Hương 💜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 50% 30%, #1f1035, #070714 80%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f5f3ff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.25), transparent 40%);
+            animation: backgroundPulse 10s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        /* Hiệu ứng hạt sao lấp lánh */
+        .stars {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                              radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 90px 40px, #22d3ee, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.4;
+            z-index: -1;
+            animation: twinkle 5s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-200px); }
+        }
+
+        @keyframes backgroundPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            animation: floatContainer 6s ease-in-out infinite;
+        }
+
+        @keyframes floatContainer {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Khung hiển thị lời bài hát / Lời chúc */
+        .lyrics-box {
+            font-size: 18px;
+            color: #e2e8f0;
+            min-height: 60px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+            letter-spacing: 1px;
+            line-height: 1.6;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hai khối neon vuông (giống trong video) */
+        .neon-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .neon-box {
+            width: 65px;
+            height: 65px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 2px solid #22d3ee;
+            border-radius: 14px;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.6), inset 0 0 15px rgba(34, 211, 238, 0.3);
+            animation: pulseGlow 2s ease-in-out infinite alternate, driftBox 3.5s ease-in-out infinite;
+        }
+
+        .neon-box:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 10px rgba(34, 211, 238, 0.4); }
+            to { box-shadow: 0 0 25px rgba(34, 211, 238, 0.9); }
+        }
+
+        @keyframes driftBox {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+        }
+
+        /* Khu vực đĩa nhạc Vinyl */
+        .music-player-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            width: fit-content;
+            cursor: pointer;
+            transition: 0.3s ease;
+            animation: pulseButton 2.2s ease-in-out infinite alternate;
+        }
+
+        .music-player-area:hover {
+            border-color: #22d3ee;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .music-player-area:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes pulseButton {
+            from { box-shadow: 0 0 0 rgba(34, 211, 238, 0.2); }
+            to { box-shadow: 0 0 18px rgba(34, 211, 238, 0.5); }
+        }
+
+        .vinyl {
+            width: 40px;
+            height: 40px;
+            background: #111;
+            border-radius: 50%;
+            border: 2px dashed #444;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vinyl::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #22d3ee;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22d3ee;
+        }
+
+        .playing .vinyl {
+            animation: spin 3s linear infinite;
+        }
+
+        .playing .play-btn-text {
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.8);
+            animation: blinkText 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes blinkText {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .play-btn-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #22d3ee;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #8882b5;
+            letter-spacing: 2px;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -40px;
+            font-size: 24px;
+            color: rgba(255, 105, 180, 0.8);
+            text-shadow: 0 0 12px rgba(255, 105, 180, 0.8);
+            animation: floatHeart linear infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 1; }
+            100% {
+                transform: translateY(-110vh) scale(1.2) rotate(18deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+    <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+    <main class="container">
+        <!-- Phần hiển thị chữ chạy theo nhịp -->
+        <div class="lyrics-box" id="lyricsText">
+            Hôm nay tớ có nhưng lời muốn ... ✨
+        </div>
+
+        <!-- Hai ô vuông neon chớp tắt -->
+        <div class="neon-boxes">
+            <div class="neon-box"></div>
+            <div class="neon-box"></div>
+        </div>
+
+        <!-- Trình phát nhạc / Đĩa vinyl -->
+        <div class="music-player-area" id="musicToggle">
+            <div class="vinyl"></div>
+            <span class="play-btn-text" id="btnText">🎵 Bật nhạc & Chạy lời chúc</span>
+        </div>
+
+        <div class="footer-note">GỬI HƯƠNG 20/10 💜</div>
+    </main>
+
+    <!-- Thẻ âm thanh (Thay file music.mp3 bằng nhạc nền bạn muốn) -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Danh sách các câu chữ chạy theo thời gian (Mô phỏng video)
+        const lyrics = [
+            { time: 0, text: "Hôm nay tớ nhận lệnh từ Dr D là để... ✨" },
+            { time: 3, text: "Ui cậu đẹp quá 🌸" },
+            { time: 6, text: "À thì cũng sắp 20/10 rồi..." },
+            { time: 10, text: "Nên là tớ muốn..." },
+            { time: 14, text: "Chúc cậu thật nhiều sức khỏe 💖" },
+            { time: 18, text: "Chúc cậu thật xinh đẹp và luôn giữ nụ cười trên môi 🌷" },
+            { time: 24, text: "Chúc Hương có một ngày 20/10 thật hạnh phúc và ngập tràn niềm vui! ✨" }
+        ];
+
+        const floatingHearts = document.getElementById("floatingHearts");
+        const music = document.getElementById("bgMusic");
+        const musicToggle = document.getElementById("musicToggle");
+        const btnText = document.getElementById("btnText");
+        const lyricsText = document.getElementById("lyricsText");
+
+        for (let i = 0; i < 16; i++) {
+            const heart = document.createElement("span");
+            heart.className = "heart";
+            heart.textContent = i % 2 === 0 ? "💜" : "💗";
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDuration = `${8 + Math.random() * 10}s`;
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heart.style.fontSize = `${14 + Math.random() * 22}px`;
+            floatingHearts.appendChild(heart);
+        }
+
+        let isPlaying = false;
+        let lyricTimer = null;
+        let lyricStep = 0;
+
+        async function toggleGreeting() {
+            if (isPlaying) return;
+
+            isPlaying = true;
+            musicToggle.classList.add("playing");
+            btnText.textContent = "⏸ Đang mở lời chúc...";
+            lyricsText.textContent = "";
+
+            try {
+                await music.play();
+            } catch (e) {
+                // Không có nhạc hoặc trình duyệt chặn autoplay → vẫn mở lời chúc bình thường.
+            }
+
+            startLyricsPlayback();
+        }
+
+        musicToggle.addEventListener("click", toggleGreeting);
+        document.body.addEventListener("click", (event) => {
+            if (event.target !== musicToggle && event.target !== btnText && event.target !== document.querySelector(".vinyl")) {
+                toggleGreeting();
+            }
+        });
+
+        function startLyricsPlayback() {
+            clearInterval(lyricTimer);
+            lyricStep = 0;
+
+            if (music && music.src) {
+                try {
+                    music.currentTime = 0;
+                } catch (e) {
+                    // Bỏ qua nếu audio chưa sẵn sàng.
+                }
+            }
+
+            lyricTimer = setInterval(() => {
+                const currentLine = lyrics[lyricStep];
+                if (currentLine) {
+                    lyricsText.textContent = currentLine.text;
+                    lyricStep++;
+                } else {
+                    clearInterval(lyricTimer);
+                    btnText.textContent = "🎵 Đã mở lời chúc";
+                    musicToggle.classList.remove("playing");
+                    isPlaying = false;
+                }
+            }, 2200);
+        }
+    </script>
+</body>
+</html>
